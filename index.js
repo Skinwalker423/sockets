@@ -1,25 +1,18 @@
-// core node module
-const http = require("http");
-// ws is a 3rd party npm module
-const websocket = require("ws");
+const express = require("express");
+const app = express();
+const socketio = require("socket.io");
 
-const server = http.createServer((req, res) => {
-  console.log(req.method);
-  res.end("I an connected");
+const port = 8000;
+
+app.use(express.static(__dirname + "/public"));
+
+app.get("/randomroute", (req, res) => {
+  console.log("req", req.method);
+  res.send("Welcome to random route");
 });
 
-const wss = new websocket.WebSocketServer({ server });
-
-wss.on("headers", (headers, req) => {
-  console.log("headers", headers);
+const expressServer = app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
 
-wss.on("connection", (connection, req) => {
-  console.log("connected");
-  connection.send("Welcome to the websocket server");
-  connection.onmessage = (message) => {
-    console.log("msg in server", message.data);
-  };
-});
-
-server.listen(8000);
+const io = socketio(expressServer);
