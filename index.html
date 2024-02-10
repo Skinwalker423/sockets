@@ -10,17 +10,5 @@
   </head>
   <body>
     <h1>WebSocket Class</h1>
-    <script>
-      let ws = new WebSocket("ws://localhost:8000");
-      console.log("websock in html file", ws);
-      ws.onopen = (event) => {
-        console.log("event", event.message);
-        ws.send("Response message after onopen");
-      };
-
-      ws.onmessage = (message) => {
-        console.log("message", message.data);
-      };
-    </script>
   </body>
 </html>
